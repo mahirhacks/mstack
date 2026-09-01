@@ -1,5 +1,7 @@
 # Specification Templates
 
+These are the canonical artifact formats. A complete worked example following them lives in `examples/feedback-widget/`.
+
 ## Feature Requirements
 
 ```markdown
@@ -160,6 +162,10 @@ WHEN <condition> THE SYSTEM SHALL <correct behaviour>.
 
 ## Tasks
 
+Main tasks are numbered `Task 1`, `Task 2`, … Subtasks are numbered `Task 1.1`, `Task 1.2`, … Workers execute subtasks. Each subtask uses exactly these four fields: Objective, Implementation, Criteria, Test.
+
+Write every **Implementation** field so an executor with no context beyond the approved artifacts and the repository can complete it: exact files, the specific change, dependencies, and mapped requirements. A vague subtask forces the worker to guess and defeats routing execution to a cheaper model (see Model Routing in `references/roles.md`).
+
 ```markdown
 # Tasks: <Feature or Bug Name>
 
@@ -169,31 +175,37 @@ WHEN <condition> THE SYSTEM SHALL <correct behaviour>.
 ## Traceability
 | Requirement | Design section | Tasks |
 |---|---|---|
-| REQ-001 | Components / Data Flow | TASK-001, TASK-002 |
+| REQ-001 | Components / Data Flow | Task 1.1, Task 1.2 |
 
 ## Implementation Plan
 
-- [ ] **TASK-001 — <Title>**
-  - **Depends on:** none
-  - **Requirements:** REQ-001
-  - **Files/components:** `<path or component>`
-  - **What to do:** <specific change>
-  - **Done when:** <verifiable completion>
-  - **Checks:** <test, lint, build, or smoke step>
+### Task 1 — <Main task title>
 
-- [ ] **TASK-002 — <Title>**
-  - **Depends on:** TASK-001
-  - **Requirements:** REQ-001
-  - **Files/components:** `<path or component>`
-  - **What to do:** <specific change>
-  - **Done when:** <verifiable completion>
-  - **Checks:** <verification>
+#### [ ] Task 1.1 — <Subtask title>
+- **Objective:** <what this subtask achieves>
+- **Implementation:** <specific change; files/components; dependencies; mapped requirements>
+- **Criteria:** <verifiable completion>
+- **Test:** <test, lint, build, or smoke step>
+
+#### [ ] Task 1.2 — <Subtask title>
+- **Objective:** <what this subtask achieves>
+- **Implementation:** <specific change; files/components; dependencies; mapped requirements>
+- **Criteria:** <verifiable completion>
+- **Test:** <verification>
+
+### Task 2 — <Main task title>
+
+#### [ ] Task 2.1 — <Subtask title>
+- **Objective:** <what this subtask achieves>
+- **Implementation:** <specific change; files/components; dependencies; mapped requirements>
+- **Criteria:** <verifiable completion>
+- **Test:** <verification>
 
 ## Parallel Groups
-- Group A: <independent tasks or none>
+- Group A: <independent subtasks or none>
 
 ## File Conflicts
-- `<path>`: TASK-001 and TASK-003 must be completed in one coordinated pass.
+- `<path>`: Task 1.1 and Task 2.1 must be completed in one coordinated pass.
 
 ## Execution Notes
 - <migration, generated file, shared state, or sequencing note>

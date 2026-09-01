@@ -3,7 +3,7 @@
 ## Spec Review
 
 ```markdown
-# <Artifact> Review — Score: X/10
+# <Artifact> Review
 
 ## Ground-Truth Checks
 - ✅ <finding with evidence>
@@ -32,10 +32,10 @@
 ## Implementation Review
 
 ```markdown
-# Implementation Review — Score: X/10
+# Implementation Review
 
 ## Task Coverage
-- TASK-001 — complete | blocked | skipped
+- Task 1.1 — complete | blocked | skipped
 
 ## Requirement Conformance
 - REQ-001 — ✅ | ⚠️ | ❌ — <evidence>
@@ -66,7 +66,7 @@
 # Worker Report
 
 ## Tasks Completed
-- TASK-001 — <summary and files>
+- Task 1.1 — <summary and files>
 
 ## Tasks Blocked
 - <task and reason>
@@ -107,7 +107,7 @@
 - <check and result>
 
 ## Traceability
-- REQ-001 → TASK-001 → <test or observable evidence>
+- REQ-001 → Task 1.1 → <test or observable evidence>
 
 ## Deviations
 - None | <approved deviation>

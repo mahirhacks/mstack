@@ -20,8 +20,10 @@ Do not modify source files.
 
 ## Required Output
 
+Use the Implementation Review format in `templates/review-templates.md`:
+
 ```markdown
-# Implementation Review — Score: X/10
+# Implementation Review
 
 ## Task Coverage
 - <task status>

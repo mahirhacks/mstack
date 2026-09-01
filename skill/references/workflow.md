@@ -64,7 +64,7 @@ Requirements should capture:
 - out of scope;
 - open questions.
 
-Run an independent requirements review. After PASS, ask for user approval.
+Run an independent requirements review. After PASS, apply the user gate for the active approval mode (section 7).
 
 ### Phase 2 — Design
 
@@ -76,7 +76,7 @@ Create:
 
 Design should explain the smallest viable technical approach and how it fits the current repository.
 
-Run an independent design review against requirements and the repository. After PASS, ask for user approval.
+Run an independent design review against requirements and the repository. After PASS, apply the user gate for the active approval mode (section 7).
 
 ### Phase 3 — Tasks
 
@@ -88,12 +88,14 @@ Create:
 
 Tasks must be ordered by dependency and mapped to requirements and design sections.
 
+Write `tasks.md` as numbered main tasks (`Task 1`) with executable subtasks (`Task 1.1`). Each subtask must include Objective, Implementation, Criteria, and Test.
+
 Run two consistency checks:
 
 - requirements ↔ design;
 - design ↔ tasks.
 
-After PASS, ask for user approval.
+After PASS, apply the user gate for the active approval mode (section 7).
 
 ### Phase 4 — Implementation
 
@@ -139,20 +141,33 @@ Design-first never removes requirements traceability.
 
 ## 6. Quick Plan
 
-Quick Plan is for a well-understood feature.
+Quick Plan is for a well-understood feature. It is the one-gate approval mode described in section 7: draft all artifacts back-to-back with internal reviews, present the whole plan, and pause once before implementation unless implementation was also explicitly authorized (Pre-authorized mode).
 
-The agent:
+## 7. Approval Modes
 
-1. creates requirements or bugfix;
-2. reviews and repairs it;
-3. creates design;
-4. reviews and repairs it;
-5. creates tasks;
-6. runs consistency review;
-7. presents the whole plan;
-8. pauses before implementation unless implementation was also explicitly authorized.
+The user chooses the gating level. When no mode is stated, default to Gated for high-risk or multi-stakeholder changes, and suggest Quick Plan for solo, low-risk MVP work.
 
-## 7. Approval Phrases
+### Gated (full gates)
+
+Pause for explicit user approval after each reviewed artifact:
+
+1. Requirements or bugfix approval.
+2. Design approval.
+3. Tasks approval.
+
+After tasks are approved, the agent may execute all approved tasks without asking after every task, unless the user requested task-by-task control.
+
+### Quick Plan (one gate)
+
+Create requirements or bugfix, design, and tasks back-to-back. Each artifact still gets an internal independent review and repair. Present the whole plan and pause once before implementation.
+
+### Pre-authorized (no planning gates)
+
+Use only when the user explicitly authorizes planning and implementation together (for example, "quick plan and implement"). Internal reviews still run at every stage. Only the Required Pauses in `AGENTS.md` — new dependencies, destructive actions, major design deviations, unresolved product or security decisions, blockers — interrupt the run.
+
+In every mode, the final independent review is mandatory and cannot be waived.
+
+## 8. Approval Phrases
 
 Treat clear equivalents as approval:
 
@@ -169,7 +184,7 @@ do task <id>
 
 Do not treat unrelated positive language as approval when the user's intent is unclear.
 
-## 8. Mid-Flight Requirement Change
+## 9. Mid-Flight Requirement Change
 
 When the user changes an approved requirement:
 
@@ -180,7 +195,7 @@ When the user changes an approved requirement:
 5. re-review the changed scope;
 6. continue from the earliest affected phase.
 
-## 9. Loop Guardrails
+## 10. Loop Guardrails
 
 Default:
 

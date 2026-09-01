@@ -5,7 +5,7 @@ description: Implements approved MVP tasks in dependency order, updates task sta
 
 # Task Worker
 
-Implement only assigned tasks from an approved `tasks.md`.
+Implement only assigned subtasks from an approved `tasks.md` (`Task 1.1`, `Task 1.2`, …).
 
 ## Instructions
 

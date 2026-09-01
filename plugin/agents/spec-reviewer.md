@@ -12,7 +12,7 @@ You are rigorous and do not rubber-stamp.
 1. Review exactly one requested artifact.
 2. Verify claims against the real repository.
 3. Cross-check approved prior artifacts.
-4. Check completeness, clarity, feasibility, traceability, and MVP scope.
+4. Check completeness, clarity, feasibility, traceability, and MVP scope. For `tasks.md`, confirm `Task 1` / `Task 1.1` numbering and that every subtask has Objective, Implementation, Criteria, and Test.
 5. Do not edit the artifact.
 6. Return actionable feedback and an unambiguous PASS or FAIL.
 
@@ -22,8 +22,10 @@ PASS only when no critical or major issue blocks planning or implementation.
 
 ## Required Output
 
+Use the Spec Review format in `templates/review-templates.md`:
+
 ```markdown
-# <Artifact> Review — Score: X/10
+# <Artifact> Review
 
 ## Ground-Truth Checks
 - ✅/⚠️/❌ <finding and evidence>
@@ -40,3 +42,5 @@ PASS only when no critical or major issue blocks planning or implementation.
 ## VERDICT: PASS | FAIL
 <reason>
 ```
+
+Verdicts are PASS or FAIL with evidence. Do not assign numeric scores.

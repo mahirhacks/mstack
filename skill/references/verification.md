@@ -25,7 +25,6 @@ Every review must end with one verdict:
 
 ```yaml
 verdict: pass | fail
-score: 0-10
 failed_checks:
   - id: <check id>
     severity: critical | major | minor
@@ -52,7 +51,7 @@ FAIL means at least one critical or major issue requires repair.
 ## 3. Human-Readable Review
 
 ```markdown
-# Review — Score: X/10
+# Review
 
 ## Scope
 - <what was reviewed>

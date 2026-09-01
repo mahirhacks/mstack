@@ -2,62 +2,64 @@
 
 A lightweight, reusable agent workflow for building serious MVPs without turning every change into enterprise bureaucracy.
 
-It is designed for projects such as:
+Designed for AI-powered apps, agentic tools, SaaS MVPs, internal automation, and security-oriented developer products.
 
-- AI-powered web applications
-- Agentic tools and developer platforms
-- SaaS MVPs
-- Internal automation products
-- Security-oriented developer tools
-- Products that may grow quickly after the first working release
+## Install
 
-## What each file does
+See **[INSTALL.md](INSTALL.md)** for per-platform steps (Cursor, Claude Code, Codex, Antigravity, and others).
 
-- `SKILL.md` — portable workflow entry point and orchestration rules.
-- `AGENTS.md` — repository-level instructions that should be read every session.
-- `agents/` — reusable prompts for writers, workers, and independent reviewers.
-- `references/` — detailed workflow, role, and verification rules loaded only when needed.
-- `templates/` — copy-ready specification and review templates.
-- `steering/` — starter project-context files to customize per repository.
+**Fastest path:**
 
-## Recommended installation
+```bash
+# In your project
+mkdir -p .agent/mvp-spec-driven-delivery
+cp -R skill/. .agent/mvp-spec-driven-delivery/
+cp AGENTS.md ./AGENTS.md
+```
 
-1. Put `AGENTS.md` in the repository root.
-2. Put `SKILL.md`, `agents/`, `references/`, and `templates/` together wherever your agent platform loads skills.
-3. Copy the files from `steering/` into the project's preferred steering directory:
-   - `.agent/steering/`
-   - `.cursor/steering/`
-   - `.kiro/steering/`
-   - or another established project location.
-4. Customize the steering files before major implementation.
-5. Keep generated specs in the project's existing spec directory. When none exists, use `.agent/specs/<change-name>/`.
+Then: `Use mvp-spec-driven-delivery. Quick plan: <feature>.`
+
+## Repository layout
+
+| Path | Purpose |
+|---|---|
+| `skill/` | **Canonical pack** — edit here. Contains `SKILL.md`, agents, references, templates, examples, steering. |
+| `AGENTS.md` | Template for project root — copy into every target repo. |
+| `plugin/` | Claude Code plugin — slash commands + bundled skill. Run `scripts/sync-plugin.ps1` after editing `skill/`. |
+| `INSTALL.md` | Full install guide for every platform. |
 
 ## Typical commands
 
+- `Use mvp-spec-driven-delivery. Quick plan: <feature>.`
 - `Start requirements for <feature>.`
-- `Quick plan: <feature>.`
 - `Bug: <problem>. Start with diagnosis.`
-- `Requirements approved.`
-- `Design approved.`
-- `Tasks approved. Execute all tasks.`
-- `Do Task 3 only.`
+- `Requirements approved.` / `Design approved.` / `Tasks approved. Execute all tasks.`
+- `Do Task 1.2 only.`
 - `Review the current implementation.`
 - `What is the current spec status?`
 
-## Recommended default mode
+Claude Code plugin slash commands: `/quick-plan`, `/start-requirements`, `/spec-status`, `/execute-tasks`.
 
-For a meaningful MVP feature:
+## Approval modes
 
-```text
-requirements
-→ user approval
-→ design
-→ user approval
-→ tasks
-→ user approval
-→ autonomous implementation
-→ independent verification
-→ delivery summary
-```
+Defined in `skill/references/workflow.md`:
 
-For a tiny, low-risk fix, use the direct path.
+- **Gated** — approve requirements, design, and tasks separately.
+- **Quick Plan** — draft all three with internal reviews, pause once before implementation. Default for solo MVP work.
+- **Pre-authorized** — `quick plan and implement` authorizes the full run; only required pauses interrupt.
+
+Internal independent reviews and the final verification run in every mode.
+
+## Cost control via model routing
+
+Expensive thinking is front-loaded into the spec so execution can run on a cheaper model:
+
+- **Strong model:** spec writer, spec reviewer, implementation reviewer
+- **Cheap model:** task workers executing well-specified subtasks
+- **Escalation:** subtask fails review twice → strong-model worker
+
+Full rules: `skill/references/roles.md` (Model Routing).
+
+## Contributing
+
+Edit files under `skill/` only. Then run `scripts/sync-plugin.ps1` (or `.sh`) to refresh `plugin/`.

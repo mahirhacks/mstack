@@ -79,6 +79,8 @@ Checks by artifact:
 ### Tasks
 
 - every requirement and design section is covered;
+- main tasks use `Task 1` numbering and executable work lives in `Task 1.1` subtasks;
+- every subtask has Objective, Implementation, Criteria, and Test;
 - dependencies are correct;
 - tasks are independently verifiable;
 - file conflicts are identified;
@@ -137,6 +139,18 @@ The reviewer checks:
 - operational readiness appropriate for an MVP.
 
 It never repairs source files.
+
+## Model Routing (Optional Cost Control)
+
+Roles are defined by contract, not by model. When the platform can assign a different model per role, route by how much judgment the role needs:
+
+- **Strong model — required:** spec writer, spec reviewer, implementation reviewer. Planning and review are where weak models fail silently: vague specs that don't transfer the thinking, and rubber-stamped reviews of plausible-looking code. A cheap reviewer defeats the entire verification layer.
+- **Cheap model — safe:** task workers executing approved subtasks. A well-written subtask requires execution, not judgment: the Objective, Implementation, Criteria, and Test fields already contain the thinking.
+- **Either:** the parent/orchestrator and integration worker, since the workflow files script their decisions.
+
+Escalation rule: when a cheap worker fails review twice on the same subtask, reassign that subtask to a strong-model worker instead of spending the third repair cycle on a repeat failure.
+
+This split works only when subtasks are self-contained. The task-writing standard in `templates/spec-templates.md` — an executor with no context beyond the approved artifacts and the repository can complete the subtask — is what makes cheap execution safe. The final independent review is never routed to a cheap model.
 
 ## Sequential Fallback
 

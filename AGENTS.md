@@ -4,6 +4,27 @@ Read this file at the start of every agent session.
 
 This repository uses a lightweight spec-driven workflow for meaningful features and risky fixes. The goal is to ship a coherent MVP quickly without allowing agents to guess silently, self-approve, or drift away from the requested product.
 
+## Skill pack location
+
+The workflow skill pack lives in the first path that exists:
+
+1. `.agent/mvp-spec-driven-delivery/`
+2. `.cursor/skills/mvp-spec-driven-delivery/`
+
+Invoke it explicitly when needed: `Use mvp-spec-driven-delivery.`
+
+For the full workflow entry point, read `<skill-pack>/SKILL.md`.
+
+## Canonical rule locations
+
+Each detailed rule lives in exactly one file under `<skill-pack>/`. When this summary and a canonical file disagree, the canonical file wins:
+
+- phases, approval modes, gates, change control → `references/workflow.md`
+- role contracts → `references/roles.md`
+- verification, verdicts, repair loops → `references/verification.md`
+- artifact formats → `templates/spec-templates.md`, `templates/review-templates.md`
+- worked example to imitate → `examples/feedback-widget/`
+
 ## 1. Read Project Context First
 
 Read these files when they exist:
@@ -25,7 +46,7 @@ Preferred fallback locations:
 
 Reuse an existing `.cursor/`, `.kiro/`, `docs/specs/`, or other project convention instead of creating a duplicate structure.
 
-When steering is missing for a new project, inspect the repository and draft the starter files from `steering/` for user review.
+When steering is missing for a new project, inspect the repository and draft starter files from `<skill-pack>/steering/` for user review.
 
 ## 2. Understand Before Editing
 
@@ -64,18 +85,18 @@ Default flow:
 ```text
 requirements.md or bugfix.md
 → review
-→ user approval
+→ user gate
 → design.md
 → review
-→ user approval
+→ user gate
 → tasks.md
 → consistency review
-→ user approval
+→ user gate
 → implementation
 → independent final review
 ```
 
-The user may request `Quick plan`, which skips intermediate user gates but still pauses before implementation unless implementation is also authorized.
+How many of those user gates apply depends on the approval mode the user chose — Gated, Quick Plan, or Pre-authorized. The modes are defined in `<skill-pack>/references/workflow.md`. Never skip the pause before implementation unless the user pre-authorized implementation explicitly.
 
 ## 5. Agent Boundaries
 
@@ -86,7 +107,7 @@ The user may request `Quick plan`, which skips intermediate user gates but still
 - Writers and workers never approve their own work.
 - A fresh reviewer should be used for each review pass when possible.
 
-When subagents are unavailable, run the roles sequentially and keep reviewer passes read-only.
+When subagents are unavailable, run the roles sequentially and keep reviewer passes read-only. Subagent prompts live in `<skill-pack>/agents/`.
 
 ## 6. Clarifying Questions
 
@@ -108,18 +129,15 @@ Put unresolved non-blocking uncertainty in `Open Questions` instead of inventing
 
 ## 7. Implementation Rules
 
-1. Follow approved requirements, design, and tasks.
-2. Follow task dependency order.
-3. Match nearby code patterns.
-4. Do not add a dependency without approval unless the project explicitly pre-authorizes it.
-5. Add or update tests for changed behaviour when practical.
-6. Keep changes scoped; do not perform unrelated cleanup.
-7. Do not leave hidden placeholders or unfinished branches.
-8. Do not silently skip or merge tasks.
-9. Update task markers: `[ ]`, `[~]`, `[x]`, `[!]`.
-10. Explain every deviation from the approved design.
-11. Preserve compatibility unless a breaking change is approved.
-12. Never place secrets or credentials in version-controlled files.
+Workers follow the full contract in `<skill-pack>/agents/task-worker.md` and `<skill-pack>/references/roles.md`. The non-negotiables every session:
+
+- follow approved requirements, design, and tasks in dependency order;
+- match nearby code patterns and keep changes scoped;
+- no unapproved dependencies;
+- no silently skipped or merged tasks, and no hidden placeholders;
+- update task markers: `[ ]`, `[~]`, `[x]`, `[!]`;
+- explain every deviation from the approved design;
+- never place secrets or credentials in version-controlled files.
 
 ## 8. MVP Design Rules
 
@@ -168,19 +186,7 @@ Stop and ask before:
 
 ## 11. Verification
 
-Run the checks relevant to the project:
-
-- formatter;
-- build;
-- lint;
-- type checking;
-- unit tests;
-- integration tests;
-- migration checks;
-- targeted manual smoke test;
-- security checks for changed boundaries.
-
-Do not claim a check passed when it was not run. State unavailable tools, environments, and skipped checks.
+Run the checks relevant to the project as defined in `<skill-pack>/references/verification.md`. Do not claim a check passed when it was not run. State unavailable tools, environments, and skipped checks.
 
 ## 12. Final Delivery
 
