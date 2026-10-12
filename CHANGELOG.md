@@ -2,7 +2,7 @@
 
 ## 2.0.0 — 2026-10-12
 
-Renamed from `mvp-spec-driven-delivery` to **mstack**, and redesigned as an independent planning skill. See [architecture.md](architecture.md).
+Renamed from `mvp-spec-driven-delivery` to **mstack**, and redesigned as an independent planning skill. See the [README](README.md).
 
 - **Three flows:** the interview → `product.md`, `tech.md`, `security.md`, `architecture.md`; feature; bug-fix. Plus a tiny-fix shortcut.
 - **New skills:** `/mstack:goal`, `product`, `feature`, `bug-fix`, `visualhigh`, `visuallow`, `mode`, `status`.
