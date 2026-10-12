@@ -35,20 +35,20 @@ mstack writes its own files into `.mstack/` in your project. Commit that folder;
 ### Claude Code (plugin)
 
 ```text
-/plugin install mstack --marketplace mahirhacks/Spec-Driven-Agents
+/plugin install mstack --marketplace mahirhacks/mstack
 ```
 
 Or add the marketplace first, then install:
 
 ```text
-/plugin marketplace add mahirhacks/Spec-Driven-Agents
+/plugin marketplace add mahirhacks/mstack
 /plugin install mstack@mstack
 ```
 
 To try a local checkout without installing:
 
 ```bash
-claude --plugin-dir /path/to/Spec-Driven-Agents
+claude --plugin-dir /path/to/mstack
 ```
 
 Then copy `AGENTS.md` into your project root (merge it if you already have one) and run `/mstack:goal`.
@@ -61,16 +61,16 @@ These tools read `AGENTS.md` (or their own rules file) every session, so mstack 
 
 ```bash
 mkdir -p .agent/mstack
-cp -R /path/to/Spec-Driven-Agents/{skills,agents,core} .agent/mstack/
-cp /path/to/Spec-Driven-Agents/AGENTS.md ./AGENTS.md
+cp -R /path/to/mstack/{skills,agents,core} .agent/mstack/
+cp /path/to/mstack/AGENTS.md ./AGENTS.md
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
 New-Item -ItemType Directory -Force .agent\mstack | Out-Null
-Copy-Item -Recurse -Force C:\path\to\Spec-Driven-Agents\skills, C:\path\to\Spec-Driven-Agents\agents, C:\path\to\Spec-Driven-Agents\core .agent\mstack\
-Copy-Item C:\path\to\Spec-Driven-Agents\AGENTS.md .\AGENTS.md
+Copy-Item -Recurse -Force C:\path\to\mstack\skills, C:\path\to\mstack\agents, C:\path\to\mstack\core .agent\mstack\
+Copy-Item C:\path\to\mstack\AGENTS.md .\AGENTS.md
 ```
 
 If your tool uses a different rules file (`.windsurfrules`, `.cursor/rules`…), paste the contents of `AGENTS.md` into it. Then say **"mstack goal"** to start, or **"mstack feature: <what>"** if your project files already exist.

@@ -5,7 +5,7 @@
   "author": {
     "name": "mahirhacks"
   },
-  "homepage": "https://github.com/mahirhacks/Spec-Driven-Agents",
-  "repository": "https://github.com/mahirhacks/Spec-Driven-Agents",
+  "homepage": "https://github.com/mahirhacks/mstack",
+  "repository": "https://github.com/mahirhacks/mstack",
   "keywords": ["planning", "spec-driven", "requirements", "design", "edge-cases", "tasks", "flowcharts", "agent-workflow"]
 }
