@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# local tool config
+.claude/settings.local.json
+.claude/launch.json
+
+# mstack chart viewers (generated, never committed)
+.mstack/.cache/

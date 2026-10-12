@@ -1,0 +1,14 @@
+mode: gated
+project_files: approved
+features:
+  booking:
+    status: done
+    approved: { requirements: 2026-10-13, design: 2026-10-13, edge-cases: 2026-10-14, tasks: 2026-10-14 }
+  fix-reminder-timezone:
+    fixes: booking
+    status: done
+    approved: { requirements: 2026-10-20, design: 2026-10-20, edge-cases: 2026-10-20, tasks: 2026-10-21 }
+charts:
+  booking:
+    high: spec/booking/visuals/high.md
+    low: spec/fix-reminder-timezone/visuals/low.md

@@ -1,0 +1,11 @@
+{
+  "name": "mstack",
+  "version": "2.0.0",
+  "description": "Independent planning skill for production software. An interview builds product, tech, security and architecture files; every feature and bug-fix goes requirements → design → edge cases → tasks → phased build → flowcharts, with the human making every crucial decision.",
+  "author": {
+    "name": "mahirhacks"
+  },
+  "homepage": "https://github.com/mahirhacks/Spec-Driven-Agents",
+  "repository": "https://github.com/mahirhacks/Spec-Driven-Agents",
+  "keywords": ["planning", "spec-driven", "requirements", "design", "edge-cases", "tasks", "flowcharts", "agent-workflow"]
+}

@@ -1,203 +1,54 @@
-# AGENTS.md — MVP Project Operating Rules
+# AGENTS.md — mstack project rules
 
-Read this file at the start of every agent session.
+Read this file at the start of every agent session. This project plans and builds with **mstack**.
 
-This repository uses a lightweight spec-driven workflow for meaningful features and risky fixes. The goal is to ship a coherent MVP quickly without allowing agents to guess silently, self-approve, or drift away from the requested product.
+## Where mstack lives
 
-## Skill pack location
+`MSTACK_ROOT` is the first of these that exists:
 
-The workflow skill pack lives in the first path that exists:
+1. `.agent/mstack/`
+2. `.cursor/skills/mstack/`
+3. the installed Claude Code plugin (skills appear as `/mstack:*`)
 
-1. `.agent/mvp-spec-driven-delivery/`
-2. `.cursor/skills/mvp-spec-driven-delivery/`
+The project's own mstack files live in `.mstack/` (project files, `state.yaml`, `spec/`).
 
-Invoke it explicitly when needed: `Use mvp-spec-driven-delivery.`
+## Commands
 
-For the full workflow entry point, read `<skill-pack>/SKILL.md`.
+| Say (any tool) | Claude Code | Runs |
+|---|---|---|
+| "mstack goal" / "start the mstack interview" | `/mstack:goal` | `MSTACK_ROOT/skills/goal/SKILL.md` |
+| "mstack product" | `/mstack:product` | `MSTACK_ROOT/skills/product/SKILL.md` |
+| "mstack feature: <what>" | `/mstack:feature` | `MSTACK_ROOT/skills/feature/SKILL.md` |
+| "mstack bug-fix: <what>" | `/mstack:bug-fix` | `MSTACK_ROOT/skills/bug-fix/SKILL.md` |
+| "mstack high-level chart" | `/mstack:visualhigh` | `MSTACK_ROOT/skills/visualhigh/SKILL.md` |
+| "mstack low-level chart" | `/mstack:visuallow` | `MSTACK_ROOT/skills/visuallow/SKILL.md` |
+| "mstack mode" / "use mstack" / "continue mstack" | `/mstack:mode` | `MSTACK_ROOT/skills/mode/SKILL.md` |
+| "mstack status" | `/mstack:status` | `MSTACK_ROOT/skills/status/SKILL.md` |
 
-## Canonical rule locations
+When one of these is asked for, read that SKILL.md and follow it.
 
-Each detailed rule lives in exactly one file under `<skill-pack>/`. When this summary and a canonical file disagree, the canonical file wins:
+## Rules that always apply
 
-- phases, approval modes, gates, change control → `references/workflow.md`
-- role contracts → `references/roles.md`
-- verification, verdicts, repair loops → `references/verification.md`
-- artifact formats → `templates/spec-templates.md`, `templates/review-templates.md`
-- worked example to imitate → `examples/feedback-widget/`
+1. **No guessing on crucial decisions.**
+   - Anything a user would notice, anything hard to undo, anything touching security, privacy, money or legal, any vendor or cost commitment, and any change to the project files is decided by the human.
+   - Ask, and don't assume. When unsure whether something is crucial, treat it as crucial.
+   - Minor internal choices are yours, but list them. (`MSTACK_ROOT/core/decision-policy.md`)
+2. **Three flows only:** the interview → the 4 project files; a feature; a bug-fix. A change to a built feature is a bug-fix. A tiny fix (typo, one-liner) skips the flows. (`MSTACK_ROOT/core/workflow.md`)
+3. **No building before approval.** Requirements, design, edge cases and tasks are each approved per the approval mode (default: Gated, which means after every document).
+4. **Reviewers are read-only, and nobody approves their own work.**
+5. **Finished spec folders are never edited.**
+6. **Always stop and ask before:**
+   - adding a dependency;
+   - destructive file or data actions;
+   - deploying or other external side effects;
+   - touching secrets;
+   - deviating materially from the approved design;
+   - accepting a failed critical check.
+7. **Never put secrets or credentials in version-controlled files.**
+8. **Be honest.** Never claim a check passed if it didn't run. Disclose skipped checks and limitations.
 
-## 1. Read Project Context First
+## Read before working
 
-Read these files when they exist:
-
-1. Product steering
-2. Technical steering
-3. Structure and architecture steering
-4. Security steering
-5. Testing steering
-6. Active specification artifacts
-7. Nearby code and tests for the area being changed
-
-Preferred fallback locations:
-
-```text
-.agent/steering/
-.agent/specs/
-```
-
-Reuse an existing `.cursor/`, `.kiro/`, `docs/specs/`, or other project convention instead of creating a duplicate structure.
-
-When steering is missing for a new project, inspect the repository and draft starter files from `<skill-pack>/steering/` for user review.
-
-## 2. Understand Before Editing
-
-Before changing code:
-
-- identify the requested outcome;
-- determine what must remain unchanged;
-- inspect the relevant modules, call paths, configuration, schemas, and tests;
-- detect the project's normal patterns;
-- note unknowns that cannot be inferred;
-- check for unrelated uncommitted work and preserve it.
-
-Prefer repository graphs, semantic search, symbol search, and call hierarchy over broad recursive text search when available.
-
-## 3. Direct Change vs Spec Change
-
-Use direct implementation for a tiny, low-risk, easily reversible change.
-
-Use a spec for:
-
-- meaningful new features;
-- multi-file changes;
-- AI or agent workflow behaviour;
-- database or API changes;
-- authentication or permission logic;
-- risky bug fixes;
-- architecture changes;
-- ambiguous requests.
-
-When using a spec, do not write implementation code before approved tasks exist.
-
-## 4. Spec Workflow
-
-Default flow:
-
-```text
-requirements.md or bugfix.md
-→ review
-→ user gate
-→ design.md
-→ review
-→ user gate
-→ tasks.md
-→ consistency review
-→ user gate
-→ implementation
-→ independent final review
-```
-
-How many of those user gates apply depends on the approval mode the user chose — Gated, Quick Plan, or Pre-authorized. The modes are defined in `<skill-pack>/references/workflow.md`. Never skip the pause before implementation unless the user pre-authorized implementation explicitly.
-
-## 5. Agent Boundaries
-
-- The parent agent orchestrates.
-- Spec writers draft or revise artifacts.
-- Workers modify implementation.
-- Reviewers are read-only.
-- Writers and workers never approve their own work.
-- A fresh reviewer should be used for each review pass when possible.
-
-When subagents are unavailable, run the roles sequentially and keep reviewer passes read-only. Subagent prompts live in `<skill-pack>/agents/`.
-
-## 6. Clarifying Questions
-
-Ask no more than five focused questions at once.
-
-Do not ask for information already available in the repository or steering.
-
-Ask only when the answer materially changes:
-
-- scope;
-- user behaviour;
-- data or API contracts;
-- architecture;
-- security;
-- migration;
-- success criteria.
-
-Put unresolved non-blocking uncertainty in `Open Questions` instead of inventing an answer.
-
-## 7. Implementation Rules
-
-Workers follow the full contract in `<skill-pack>/agents/task-worker.md` and `<skill-pack>/references/roles.md`. The non-negotiables every session:
-
-- follow approved requirements, design, and tasks in dependency order;
-- match nearby code patterns and keep changes scoped;
-- no unapproved dependencies;
-- no silently skipped or merged tasks, and no hidden placeholders;
-- update task markers: `[ ]`, `[~]`, `[x]`, `[!]`;
-- explain every deviation from the approved design;
-- never place secrets or credentials in version-controlled files.
-
-## 8. MVP Design Rules
-
-Prefer:
-
-- the fewest components needed;
-- existing libraries and project patterns;
-- one clear path through the product;
-- simple data models;
-- explicit error behaviour;
-- manual operational steps when automation would be premature;
-- visible future-work notes outside the active implementation.
-
-Avoid:
-
-- speculative microservices;
-- unnecessary plugin systems;
-- premature generic frameworks;
-- abstractions with only one current consumer;
-- infrastructure for hypothetical scale;
-- broad refactors unrelated to the MVP outcome.
-
-## 9. Parallel Work
-
-Parallelize only tasks that:
-
-- have no unmet dependencies;
-- do not change the same files;
-- do not modify the same public contract;
-- can be independently tested.
-
-The parent or integration worker combines results and runs the complete verification set.
-
-## 10. Required Pauses
-
-Stop and ask before:
-
-- adding a new external dependency;
-- destructive database or filesystem changes;
-- production deployment or external side effects;
-- changing secrets or credentials;
-- materially deviating from the approved design;
-- expanding product scope;
-- accepting failed critical checks;
-- making an unresolved security decision.
-
-## 11. Verification
-
-Run the checks relevant to the project as defined in `<skill-pack>/references/verification.md`. Do not claim a check passed when it was not run. State unavailable tools, environments, and skipped checks.
-
-## 12. Final Delivery
-
-The final report must contain:
-
-- outcome;
-- major files or components changed;
-- verification performed;
-- task completion state;
-- approved deviations;
-- known limitations;
-- final reviewer verdict.
-
-A change is not complete while a critical task is blocked or the final reviewer has returned FAIL.
+- `.mstack/product.md`, `tech.md`, `security.md`, `architecture.md`
+- `.mstack/state.yaml`, and the active `spec/<folder>/` documents
+- the code and tests near the change

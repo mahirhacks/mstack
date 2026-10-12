@@ -1,6 +1,0 @@
-{
-  "name": "mvp-spec-driven-delivery",
-  "version": "1.0.0",
-  "description": "Lightweight spec-driven MVP workflow with approval gates, independent review, bounded repair loops, and optional model routing for cost control.",
-  "keywords": ["spec-driven", "mvp", "requirements", "design", "tasks", "agent-workflow"]
-}

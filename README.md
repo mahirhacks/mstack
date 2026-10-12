@@ -1,65 +1,56 @@
-# MVP Spec-Driven Delivery Pack
+# mstack
 
-A lightweight, reusable agent workflow for building serious MVPs without turning every change into enterprise bureaucracy.
+An independent planning skill for building production software with AI coding agents.
 
-Designed for AI-powered apps, agentic tools, SaaS MVPs, internal automation, and security-oriented developer products.
+**The human makes every crucial decision. The agent plans, builds, and shows you what it built.**
+
+```text
+Interview  →  product.md · tech.md · security.md · architecture.md
+Feature    →  requirements → design → edge cases → tasks → build → charts
+Bug-fix    →  requirements → design → edge cases → tasks → build → charts (before/after)
+```
 
 ## Install
 
-See **[INSTALL.md](INSTALL.md)** for per-platform steps (Cursor, Claude Code, Codex, Antigravity, and others).
+**Claude Code**
 
-**Fastest path:**
-
-```bash
-# In your project
-mkdir -p .agent/mvp-spec-driven-delivery
-cp -R skill/. .agent/mvp-spec-driven-delivery/
-cp AGENTS.md ./AGENTS.md
+```text
+/plugin install mstack --marketplace mahirhacks/Spec-Driven-Agents
 ```
 
-Then: `Use mvp-spec-driven-delivery. Quick plan: <feature>.`
+Other tools (Cursor, Codex, Windsurf…) and the details are in **[INSTALL.md](INSTALL.md)**.
+
+## Skills
+
+| Skill | Does |
+|---|---|
+| `/mstack:goal` | Interviews you until every crucial fact is answered, then writes the 4 project files |
+| `/mstack:product` | Writes or refreshes the 4 project files (also from an existing codebase) |
+| `/mstack:feature` | New feature: requirements → design → edge cases → tasks → phased build → charts |
+| `/mstack:bug-fix` | Fix or change to a built feature: same steps, with root cause and before/after charts |
+| `/mstack:visualhigh` | High-level flowchart (journey with lanes) of what was built |
+| `/mstack:visuallow` | Low-level flowchart traced from the code, every box → `file:symbol` |
+| `/mstack:mode` | Runs the whole flow, and resumes where it stopped |
+| `/mstack:status` | Where everything stands, and what's next |
+
+## How it works
+
+- **The interview** fills a fixed checklist of facts (users, journey, scope, stack, scale, data, roles, compliance…). Each round asks at most 5 questions, vague answers get a follow-up, and trigger words open new questions. It ends with a playback you confirm.
+- **Every feature and bug-fix** gets its own folder under `.mstack/spec/`. You approve each document by default (Gated mode). Quick Plan and Pre-authorized modes pause less often, but never let the agent decide crucial things.
+- **Edge cases** come after the design. The agent sweeps every step of the design against a fixed checklist, ranks what it finds S1–S4, and **asks you how to handle each one**: serious ones one by one, small ones in an approval table.
+- **Tasks** are phases → sub-phases → tasks, with tests at every level. The build runs one phase at a time, and each phase gets its own review.
+- **Charts** after the build: high-level or low-level, as you choose. For a bug-fix you get the previous chart with the change in a red box, then the same chart with that area expanded. If nothing renders Mermaid, an HTML viewer opens.
+- **No guessing.** Every crucial line in every document says where it came from: you, the repo (confirmed by you), or a choice you delegated. Every reviewer fails anything that was guessed.
 
 ## Repository layout
 
 | Path | Purpose |
 |---|---|
-| `skill/` | **Canonical pack** — edit here. Contains `SKILL.md`, agents, references, templates, examples, steering. |
-| `AGENTS.md` | Template for project root — copy into every target repo. |
-| `plugin/` | Claude Code plugin — slash commands + bundled skill. Run `scripts/sync-plugin.ps1` after editing `skill/`. |
-| `INSTALL.md` | Full install guide for every platform. |
-
-## Typical commands
-
-- `Use mvp-spec-driven-delivery. Quick plan: <feature>.`
-- `Start requirements for <feature>.`
-- `Bug: <problem>. Start with diagnosis.`
-- `Requirements approved.` / `Design approved.` / `Tasks approved. Execute all tasks.`
-- `Do Task 1.2 only.`
-- `Review the current implementation.`
-- `What is the current spec status?`
-
-Claude Code plugin slash commands: `/quick-plan`, `/start-requirements`, `/spec-status`, `/execute-tasks`.
-
-## Approval modes
-
-Defined in `skill/references/workflow.md`:
-
-- **Gated** — approve requirements, design, and tasks separately.
-- **Quick Plan** — draft all three with internal reviews, pause once before implementation. Default for solo MVP work.
-- **Pre-authorized** — `quick plan and implement` authorizes the full run; only required pauses interrupt.
-
-Internal independent reviews and the final verification run in every mode.
-
-## Cost control via model routing
-
-Expensive thinking is front-loaded into the spec so execution can run on a cheaper model:
-
-- **Strong model:** spec writer, spec reviewer, implementation reviewer
-- **Cheap model:** task workers executing well-specified subtasks
-- **Escalation:** subtask fails review twice → strong-model worker
-
-Full rules: `skill/references/roles.md` (Model Routing).
-
-## Contributing
-
-Edit files under `skill/` only. Then run `scripts/sync-plugin.ps1` (or `.sh`) to refresh `plugin/`.
+| `.claude-plugin/` | Claude Code plugin + marketplace manifests |
+| `skills/` | The 8 skills (`SKILL.md` each) |
+| `agents/` | Subagents: writer, edge analyst, worker, chart maker, 3 read-only reviewers |
+| `core/` | Canonical rules: workflow, no-guess policy, interview, edge cases, charts, roles, verification |
+| `core/templates/` | Formats for every document, plus the chart viewer |
+| `examples/booking/` | A worked example: project files, one feature, one bug-fix with a before/after chart |
+| `AGENTS.md` | Rules file to copy into your project |
+| `architecture.md` | How mstack itself is designed |

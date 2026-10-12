@@ -1,0 +1,15 @@
+{
+  "name": "mstack",
+  "owner": {
+    "name": "mahirhacks"
+  },
+  "description": "mstack — an independent, no-guess planning workflow for AI coding agents.",
+  "plugins": [
+    {
+      "name": "mstack",
+      "source": "./",
+      "description": "Interview → project files; feature and bug-fix flows with requirements, design, edge cases, phased tasks and before/after flowcharts.",
+      "version": "2.0.0"
+    }
+  ]
+}

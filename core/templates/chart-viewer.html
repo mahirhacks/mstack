@@ -1,0 +1,107 @@
+<!doctype html>
+<!--
+  mstack chart viewer template (core/charts.md §8.1).
+  The chart maker copies this file to .mstack/.cache/view-<slug>-<level>.html and replaces each
+  placeholder below (written in the page as the name wrapped in double curly braces):
+    TITLE          page title, e.g. "Booking — low-level change"
+    SUMMARY        plain text: what was built or changed
+    CHART_A_TITLE  e.g. "Chart A — Before" (or just "Low-level chart")
+    CHART_A        Mermaid source of the first chart
+    CHART_B_TITLE  e.g. "Chart B — After"
+    CHART_B        Mermaid source of the second chart; for a single chart, delete the whole panel-b section
+    DETAILS        HTML: walkthrough list, failure paths, legend/trace table
+  Mermaid sources go inside script blocks of type text/plain, so they need no HTML escaping.
+  Delete this comment in the generated file.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1d1d1f; --muted: #6e6e73; --panel: #f6f6f8; --border: #d8d8de; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #161618; --fg: #ececf0; --muted: #a0a0a8; --panel: #1f1f23; --border: #34343a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header, main { max-width: 1600px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 20px; margin: 8px 0 4px; }
+  .summary { color: var(--muted); margin: 0 0 8px; white-space: pre-line; }
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; }
+  section.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .bar h2 { font-size: 15px; margin: 0; flex: 1; }
+  .bar button { background: transparent; color: var(--fg); border: 1px solid var(--border); border-radius: 6px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .canvas { overflow: auto; height: 70vh; padding: 12px; }
+  .canvas .zoom { transform-origin: 0 0; display: inline-block; }
+  .details { margin-top: 20px; }
+  .details table { border-collapse: collapse; width: 100%; }
+  .details th, .details td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; vertical-align: top; }
+  .error { color: #d00000; white-space: pre-wrap; }
+  @media (max-width: 480px) { .charts { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{TITLE}}</h1>
+  <p class="summary">{{SUMMARY}}</p>
+</header>
+<main>
+  <div class="charts">
+    <section class="panel" id="panel-a">
+      <div class="bar"><h2>{{CHART_A_TITLE}}</h2>
+        <button data-zoom="-">−</button><button data-zoom="0">fit</button><button data-zoom="+">+</button></div>
+      <div class="canvas"><div class="zoom" data-src="src-a"></div></div>
+    </section>
+    <section class="panel" id="panel-b">
+      <div class="bar"><h2>{{CHART_B_TITLE}}</h2>
+        <button data-zoom="-">−</button><button data-zoom="0">fit</button><button data-zoom="+">+</button></div>
+      <div class="canvas"><div class="zoom" data-src="src-b"></div></div>
+    </section>
+  </div>
+  <div class="details">{{DETAILS}}</div>
+</main>
+
+<script type="text/plain" id="src-a">
+{{CHART_A}}
+</script>
+<script type="text/plain" id="src-b">
+{{CHART_B}}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script>
+  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "default", securityLevel: "strict", flowchart: { htmlLabels: true, useMaxWidth: false } });
+
+  document.querySelectorAll(".zoom").forEach(async (box, i) => {
+    const src = document.getElementById(box.dataset.src);
+    if (!src) return;
+    try {
+      const { svg } = await mermaid.render("chart-" + i, src.textContent.trim());
+      box.innerHTML = svg;
+    } catch (e) {
+      box.innerHTML = '<p class="error">Chart could not be rendered:\n' + String(e.message || e) + "</p>";
+    }
+  });
+
+  document.querySelectorAll(".panel").forEach((panel) => {
+    const box = panel.querySelector(".zoom");
+    let scale = 1;
+    panel.querySelectorAll("button[data-zoom]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const z = btn.dataset.zoom;
+        if (z === "0") {
+          const svg = box.querySelector("svg"), canvas = panel.querySelector(".canvas");
+          scale = svg ? Math.min(1, (canvas.clientWidth - 24) / svg.getBoundingClientRect().width * scale) : 1;
+        } else {
+          scale = z === "+" ? scale * 1.25 : scale / 1.25;
+        }
+        box.style.transform = "scale(" + scale + ")";
+      });
+    });
+  });
+</script>
+</body>
+</html>
