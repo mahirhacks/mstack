@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0 — 2026-10-25
+
+- **Renamed** `/mstack:goal` → **`/mstack:interview`** and `/mstack:mode` → **`/mstack:full`**.
+- **New `/mstack:quick-fix`:** a fast, token-cheap code change. It finds the spot, makes exactly the requested change, and replies "Not verified (quick-fix)". There's no spec, review, test or chart. It replaces the old tiny-fix path. It runs only when the user asks; the flows offer it for tiny requests but never choose it themselves. It still stops for dependencies, deletions, secrets and deploys.
+
 ## 2.1.0 — 2026-10-25
 
 Redesigned `tasks.md` so that a strong model plans and a small model can build it just as well.

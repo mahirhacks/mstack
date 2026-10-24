@@ -1,9 +1,9 @@
 ---
-name: goal
-description: mstack interview. Runs a structured, multi-round interview to pin down a product's goal, users, scope, tech, architecture and security without guessing anything crucial, then hands over to mstack:product to write product.md, tech.md, security.md and architecture.md. Use for /mstack:goal, "mstack goal", starting a new project with mstack, or when the product changes direction (pivot).
+name: interview
+description: mstack interview. Runs a structured, multi-round interview to pin down a product's goal, users, scope, tech, architecture and security without guessing anything crucial, then hands over to mstack:product to write product.md, tech.md, security.md and architecture.md. Use for /mstack:interview, "mstack interview", starting a new project with mstack, or when the product changes direction (pivot).
 ---
 
-# mstack:goal — the interview
+# mstack:interview
 
 **Setup:** `MSTACK_ROOT` is the folder two levels above this file (it contains `core/`). Read `AGENTS.md` if present, then:
 

@@ -16,20 +16,21 @@ There is no other flow: no "feature update" and no "extend". A change to an exis
 
 | Request | Route |
 |---|---|
-| No project files yet | the interview first (`mstack:goal`), then the request |
+| No project files yet | the interview first (`mstack:interview`), then the request |
 | Something new | feature (`mstack:feature`) |
 | Something wrong, or a change to a feature that is already built | bug-fix (`mstack:bug-fix`) |
-| Tiny: a typo, a one-liner, a config value; no schema, API, auth, security or data impact; ≤2 files | tiny-fix path (§1.2) |
+| Tiny: a typo, a one-liner, a config value; no schema, API, auth, security or data impact; ≤2 files | offer `mstack:quick-fix` (§1.2) |
 
 When the route is unclear, ask the user (one question). Don't guess it.
 
-### 1.2 Tiny-fix path
+### 1.2 Quick fix (`mstack:quick-fix`)
 
-```text
-state the change in one line → make it → read-only review → report
-```
+For speed and low token use. The agent finds the spot, makes exactly the requested change, and replies in one line marked `Not verified (quick-fix)`. There's no spec, review, test or chart. The rules are in `skills/quick-fix/SKILL.md`.
 
-There are no spec files and no charts unless the user asks. If the fix turns out to be bigger than tiny while you're working on it, stop and route it as a bug-fix.
+- **It runs only when the user asks for it.** Skipping verification is the user's decision.
+- **When a flow sees a tiny request,** it offers quick-fix in one line ("This looks tiny — quick-fix it, with no checks?"). If the user says no, it becomes a bug-fix.
+- **It still stops and asks before** a new dependency, deleting files or data, touching secrets, or deploying.
+- **If the change turns out not to be small,** it stops and suggests a bug-fix or a feature.
 
 ## 2. Project root and files
 
@@ -122,7 +123,7 @@ Treat clear equivalents of these as approval of the document at the current gate
 ## 5. Interview flow
 
 ```text
-mstack:goal (interview, playback confirmed) → mstack:product (writes 4 files) → review → project-files gate
+mstack:interview (playback confirmed) → mstack:product (writes 4 files) → review → project-files gate
 ```
 
 The rules are in `interview.md`. `mstack:product` can also run alone on an existing codebase: derive what it can from the repo, confirm the repo facts with the user, and ask only about the gaps.

@@ -9,7 +9,7 @@ A bug-fix runs **the same steps as a feature**. Follow `MSTACK_ROOT/skills/featu
 
 ## Differences from a feature
 
-1. **Route check.** A tiny fix (a typo, a one-liner, a config value, ≤2 files, no schema, API, auth, security or data impact) takes the tiny-fix path instead (`core/workflow.md` §1.2). Any bigger change to a built feature, even a planned improvement, is a bug-fix.
+1. **Route check.** A tiny fix (a typo, a one-liner, a config value, ≤2 files, no schema, API, auth, security or data impact) is offered `mstack:quick-fix` instead (`core/workflow.md` §1.2). The user decides, because quick-fix skips all checks. Any bigger change to a built feature, even a planned improvement, is a bug-fix.
 2. **Which feature.** Identify the feature folder being fixed from `spec/*` and `state.yaml`. If more than one could match, ask the user. Never guess.
 3. **Folder:** `spec/fix-<name>/`, which you name yourself. Record `fixes: <feature>` in `state.yaml`.
 4. **Investigate before requirements.** Reproduce the problem if you can, and find the root cause in the code, with `file:line` evidence. If you can't find it, say so and ask the user for what's needed (logs, steps, environment). Don't invent a cause.

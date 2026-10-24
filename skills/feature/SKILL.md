@@ -13,8 +13,8 @@ description: mstack feature flow. Creates a feature folder and runs requirements
 
 ## 0. Start
 
-1. **Project files.** If `.mstack/` project files are missing or not approved, run `mstack:goal` first (`MSTACK_ROOT/skills/goal/SKILL.md`), then come back.
-2. **Route check.** If the request is a fix or a change to an already-built feature, switch to `mstack:bug-fix`. If it's tiny, use the tiny-fix path (`workflow.md` §1). If you're unsure, ask the user.
+1. **Project files.** If `.mstack/` project files are missing or not approved, run `mstack:interview` first (`MSTACK_ROOT/skills/interview/SKILL.md`), then come back.
+2. **Route check.** If the request is a fix or a change to an already-built feature, switch to `mstack:bug-fix`. If it's tiny, offer `mstack:quick-fix` (`workflow.md` §1.2) and let the user decide. If you're unsure, ask the user.
 3. **Folder.** Name the folder yourself (short kebab-case) and create `spec/<feature>/`.
 4. **Mode.** Infer the approval mode from the user's wording (`workflow.md` §4). If it's unclear, ask once. The default is **Gated**.
 5. **State.** Record the feature in `state.yaml`.

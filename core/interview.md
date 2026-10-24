@@ -1,6 +1,6 @@
 # Interview
 
-The canonical rules for the interview (`mstack:goal`), the gap interview of `mstack:product`, and the clarify part of the requirements and design steps. Builds on `decision-policy.md`.
+The canonical rules for the interview (`mstack:interview`), the gap interview of `mstack:product`, and the clarify part of the requirements and design steps. Builds on `decision-policy.md`.
 
 ## 1. What the interview must achieve
 
@@ -374,7 +374,7 @@ After playback approval, `mstack:product` writes the four files. The reviewer ru
 
 ## 7. Re-running the interview (pivot or major change)
 
-When project files already exist, `mstack:goal` runs in **delta mode**:
+When project files already exist, `mstack:interview` runs in **delta mode**:
 
 1. "What changed?" (free text) → classify the affected slots.
 2. Show the affected slots with their current values. The user marks each one keep, change or remove.

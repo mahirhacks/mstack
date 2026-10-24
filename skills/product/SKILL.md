@@ -1,6 +1,6 @@
 ---
 name: product
-description: mstack project files. Writes product.md, tech.md, security.md and architecture.md into .mstack/ from a confirmed mstack interview, or from an existing codebase plus a short gap interview. Use for /mstack:product, "mstack product", after mstack:goal, or to create or refresh the project files of an existing repo.
+description: mstack project files. Writes product.md, tech.md, security.md and architecture.md into .mstack/ from a confirmed mstack interview, or from an existing codebase plus a short gap interview. Use for /mstack:product, "mstack product", after mstack:interview, or to create or refresh the project files of an existing repo.
 ---
 
 # mstack:product — the four project files
@@ -13,7 +13,7 @@ description: mstack project files. Writes product.md, tech.md, security.md and a
 
 ## Input
 
-- **From `mstack:goal`:** the confirmed playback. This is the only source of crucial content.
+- **From `mstack:interview`:** the confirmed playback. This is the only source of crucial content.
 - **Standalone on an existing codebase:** derive what you can from the repo. Show the repo confirmation table (`core/interview.md` §5). Then run the interview engine **only** for crucial slots that are still empty (`core/interview.md` §2 catalog). Finish with a playback of the gaps you filled.
 
 ## Steps
@@ -29,4 +29,4 @@ description: mstack project files. Writes product.md, tech.md, security.md and a
    On FAIL: repair and re-review, at most 3 cycles.
 5. **Gate (always stops, in every mode):** show the user a short summary of each file with its path, and ask for approval.
 6. On approval, set each file's `Status: Approved`, set `state.yaml` → `project_files: approved`, and remove the `interview:` block.
-7. **Next:** ask what to build first. Then route the answer: `mstack:feature`, `mstack:bug-fix`, or the tiny-fix path (`workflow.md` §1).
+7. **Next:** ask what to build first. Then route the answer: `mstack:feature`, `mstack:bug-fix`, or offer `mstack:quick-fix` for a tiny change (`workflow.md` §1).

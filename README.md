@@ -51,7 +51,7 @@ To try a local checkout without installing:
 claude --plugin-dir /path/to/mstack
 ```
 
-Then copy `AGENTS.md` into your project root (merge it if you already have one) and run `/mstack:goal`.
+Then copy `AGENTS.md` into your project root (merge it if you already have one) and run `/mstack:interview`.
 
 ### Cursor, Codex, Windsurf, Antigravity and others
 
@@ -73,13 +73,13 @@ Copy-Item -Recurse -Force C:\path\to\mstack\skills, C:\path\to\mstack\agents, C:
 Copy-Item C:\path\to\mstack\AGENTS.md .\AGENTS.md
 ```
 
-If your tool uses a different rules file (`.windsurfrules`, `.cursor/rules`…), paste the contents of `AGENTS.md` into it. Then say **"mstack goal"** to start, or **"mstack feature: <what>"** if your project files already exist.
+If your tool uses a different rules file (`.windsurfrules`, `.cursor/rules`…), paste the contents of `AGENTS.md` into it. Then say **"mstack interview"** to start, or **"mstack feature: <what>"** if your project files already exist.
 
 If your tool has no subagents, mstack runs each role (writer, reviewer…) one after another in the same session. The reviewer passes stay read-only.
 
 ### Check that it works
 
-Run `/mstack:status` in Claude Code, or say "mstack status" elsewhere. A new project should report "Project files: missing" and suggest `mstack goal`.
+Run `/mstack:status` in Claude Code, or say "mstack status" elsewhere. A new project should report "Project files: missing" and suggest `mstack interview`.
 
 ### Upgrading from `mvp-spec-driven-delivery`
 
@@ -93,13 +93,14 @@ Run `/mstack:status` in Claude Code, or say "mstack status" elsewhere. A new pro
 
 | Skill | Does |
 |---|---|
-| `/mstack:goal` | Interviews you until every crucial fact is answered, then hands over to `product` |
+| `/mstack:interview` | Interviews you until every crucial fact is answered, then hands over to `product` |
 | `/mstack:product` | Writes or refreshes the 4 project files, including from an existing codebase |
 | `/mstack:feature` | Creates `spec/<feature>/` and runs requirements → design → edge cases → tasks → phased build → charts |
 | `/mstack:bug-fix` | Creates `spec/fix-<name>/` for a fix or change to a built feature: same steps, with root cause and before/after charts |
 | `/mstack:visualhigh` | High-level flowchart (journey with lanes) of what was built |
 | `/mstack:visuallow` | Low-level flowchart traced from the code, every box → `file:symbol` |
-| `/mstack:mode` | Runs the whole flow, and resumes where it stopped |
+| `/mstack:quick-fix` | A fast, token-cheap code change: no spec, review, tests or charts; replies "Not verified" |
+| `/mstack:full` | Runs the whole flow, and resumes where it stopped |
 | `/mstack:status` | Where everything stands, and what's next |
 
 In Cursor, Codex and other tools, invoke them by phrase ("mstack feature: add reminders"). Requirements, design, edge cases and tasks are **steps inside** `feature` and `bug-fix`, not separate skills. Saying "approved" moves the flow to the next step.
@@ -110,12 +111,12 @@ In Cursor, Codex and other tools, invoke them by phrase ("mstack feature: add re
 
 ### Three flows
 
-There's nothing else: no "feature update" and no "extend". A change to an existing feature is either a **new feature** or a **bug-fix**, and a big change to an existing feature is a bug-fix. A tiny fix (typo, one-liner, config value) skips the flows: the agent makes it, a reviewer checks it, done.
+There's nothing else: no "feature update" and no "extend". A change to an existing feature is either a **new feature** or a **bug-fix**, and a big change to an existing feature is a bug-fix. For a tiny change (typo, one-liner, config value) you can use `/mstack:quick-fix`. The agent makes exactly that change with as few tokens as possible, and does no checks at all. The agent only offers it; you decide.
 
 ```mermaid
 flowchart TD
     START([Start]) --> HAS{Project files<br/>exist?}
-    HAS -- no --> INT[Interview<br/>mstack:goal]
+    HAS -- no --> INT[Interview<br/>mstack:interview]
     INT --> FILES[product.md · tech.md<br/>security.md · architecture.md]
     FILES --> GS{{You approve}}
     GS --> WHAT
@@ -123,7 +124,7 @@ flowchart TD
 
     WHAT -- new feature --> F[spec/&lt;feature&gt;/]
     WHAT -- bug-fix --> B[spec/fix-&lt;name&gt;/<br/>Fixes: &lt;feature&gt;]
-    WHAT -- tiny fix --> TINY([Fix → review → done])
+    WHAT -- tiny, if you choose --> TINY([mstack:quick-fix<br/>change → done, no checks])
 
     F --> REQ
     B --> REQ
@@ -261,7 +262,7 @@ The agent names feature and bug-fix folders itself. See [examples/booking/](exam
 | Path | Purpose |
 |---|---|
 | `.claude-plugin/` | Claude Code plugin and marketplace manifests |
-| `skills/` | the 8 skills (`SKILL.md` each) |
+| `skills/` | the 9 skills (`SKILL.md` each) |
 | `agents/` | subagents: spec-writer, edge-analyst, task-worker, chart-maker, plus read-only spec-reviewer, task-reviewer, chart-reviewer |
 | `core/` | canonical rules: [workflow](core/workflow.md), [decision policy](core/decision-policy.md), [interview](core/interview.md), [edge cases](core/edge-cases.md), [charts](core/charts.md), [roles](core/roles.md), [verification](core/verification.md) |
 | `core/templates/` | formats for every document, plus the chart viewer |

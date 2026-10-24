@@ -9,7 +9,7 @@
       "name": "mstack",
       "source": "./",
       "description": "Interview → project files; feature and bug-fix flows with requirements, design, edge cases, phased tasks and before/after flowcharts.",
-      "version": "2.1.0"
+      "version": "2.2.0"
     }
   ]
 }
