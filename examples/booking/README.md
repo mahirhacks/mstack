@@ -14,7 +14,7 @@ Copy its *shape*, not its content. The documents are shortened to stay readable.
 | `spec/booking/requirements.md` | EARS acceptance criteria, traceability |
 | `spec/booking/design.md` | stable diagram IDs, Project file impact table |
 | `spec/booking/edge-cases.md` | edge entries resolved by the user, a failure policy, the dropped list |
-| `spec/booking/tasks.md` | phases → sub-phases → tasks, dependencies, coverage |
+| `spec/booking/tasks.md` | phases A–C + PHASE Z (Break it); every sub-phase ends with a test task and a reviewer acceptance task; planner-written test cases; a bug hunt with repairs |
 | `spec/booking/visuals/high.md` | high-level chart: journey with lanes |
 | `spec/booking/visuals/low.md` | low-level chart traced to `file:symbol` |
 | `spec/fix-reminder-timezone/requirements.md` | the Bug section with root cause |

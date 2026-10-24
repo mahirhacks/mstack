@@ -12,7 +12,7 @@ Run the checks that matter for the change. `tech.md` lists the project's command
 | Edge cases | each MUST-HANDLE / SHOULD-HANDLE edge maps to a passing test |
 | Build | build command succeeds |
 | Lint / format / types | lint, formatter and type-check results |
-| Unit / integration / e2e | task, sub-phase and phase tests |
+| Unit / integration / e2e | the planner's test cases in each sub-phase's test task, the verification sub-phase of each phase, and Phase Z |
 | Data | migration runs; rollback works where the design promised it |
 | Security | auth, permissions, validation, secrets and input boundaries from `security.md` |
 | Project files | updated when the design listed a Project file impact |
@@ -34,14 +34,30 @@ The full rules are in `decision-policy.md` §9.
 
 ## 3. Consistency check (tasks review)
 
-The `spec-reviewer` checks the whole chain before the tasks gate:
+The `spec-reviewer` checks the whole chain, and the plan's shape, before the tasks gate. FAIL on any miss.
+
+**Coverage**
 
 - every REQ maps to a design section and at least one task;
-- every MUST-HANDLE / SHOULD-HANDLE edge maps to a task and a test;
-- the design's Project file impact maps to a project-file update sub-phase;
-- the task dependencies reference real IDs and contain no cycles;
-- every task has Objective, Implementation, Criteria, Test and Depends on;
-- every sub-phase and phase has its own test.
+- every MUST-HANDLE / SHOULD-HANDLE edge is tested twice: in the sub-phase that builds it, and again in Phase Z's planned attacks;
+- the design's Project file impact maps to an "Update project files" sub-phase.
+
+**Shape** (`templates/tasks.md`)
+
+- phases are lettered and run in order, and `PHASE Z — Break it` is last;
+- sub-phases are numbered across the whole file, and tasks are `<sub-phase>.<n>`;
+- in every sub-phase, the second-last task is a test task and the last is a `[reviewer]` acceptance task;
+- in every phase, the last sub-phase is the verification sub-phase, ending with the phase acceptance;
+- Phase Z has planned attacks, a `[strong]` bug hunt, and final verification;
+- dependencies reference real IDs and contain no cycles.
+
+**Small-model readiness**
+
+- Every `[worker]` card has Files, Do, Pattern, Don't, Done when, Run and Traces.
+- It names exact paths, symbols and values, and leaves **no decision** to the worker.
+- Each card is about one or two files and roughly ≤150 changed lines. Bigger work is split.
+- Every test task lists its exact cases (input → expected). "Write tests for X" without cases is a FAIL.
+- Every acceptance task lists criteria, each with how to verify it.
 
 ## 4. Verdict
 

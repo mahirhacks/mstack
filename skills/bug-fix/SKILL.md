@@ -22,6 +22,6 @@ A bug-fix runs **the same steps as a feature**. Follow `MSTACK_ROOT/skills/featu
 
    Clarify slot R10 (`core/interview.md` §8.1) with the user: which existing behaviour must stay the same.
 6. **Inputs to every step** also include the fixed feature's documents and earlier bug-fix folders of that feature. The edge analyst uses their past root causes in its history lens.
-7. **Tasks:** include a regression test that fails before the fix and passes after it, plus tests guarding the "must not change" behaviour.
+7. **Tasks:** same shape as a feature. The first sub-phase's test cases include a regression case that reproduces the bug (it fails before the fix and passes after it), plus cases guarding the "must not change" behaviour. Phase Z still runs.
 8. **Charts:** a **before/after red-box diff** (`core/charts.md` §7), where the previous chart is `state.yaml` → `charts.<feature>`. The chart files are `visuals/<level>.diff.md` plus the clean `visuals/<level>.md`. Afterwards, move the `charts` pointer to the new clean chart.
 9. **Never edit the fixed feature's folder.** All documents for this change live in the fix folder.

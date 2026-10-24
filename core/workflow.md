@@ -77,8 +77,8 @@ clarify (ask crucial unknowns)  →  write  →  read-only review (≤3 repair c
 | 2 | Design | `spec-writer` | `design.md` | `templates/design.md`; clarify slots G1–G6 in `interview.md` §8 |
 | 3 | Edge cases | `edge-analyst` finds, main agent asks | `edge-cases.md` | `edge-cases.md` (the rules file) + `templates/edge-cases.md` |
 | 4 | Tasks | `spec-writer` | `tasks.md` | `templates/tasks.md` |
-| 5 | Build | `task-worker` | code + tests | §7 |
-| 6 | Final review | `task-reviewer` | Final Review section of `tasks.md` | `verification.md` |
+| 5 | Build (phases A … Z) | `task-worker` + `task-reviewer` | code + tests | §7 |
+| 6 | Final review | `task-reviewer` | the last acceptance task of Phase Z → Final review section of `tasks.md` | `verification.md` |
 | 7 | Charts | `chart-maker` | `visuals/` | `charts.md` |
 
 The clarify part follows `decision-policy.md` §4. Questions are always asked by the **main agent**, because subagents can't talk to the user. A writer that finds a crucial unknown returns it as a question instead of guessing.
@@ -143,24 +143,54 @@ Don't bend the implementation quietly around a changed requirement.
 
 ## 7. Build execution
 
-The build runs **one phase at a time, in order**:
+`tasks.md` has a fixed shape (`templates/tasks.md`):
+
+- **Phases** A, B, C… run in order, and `PHASE Z — Break it` is always last.
+- **Sub-phases** are numbered across the whole file, and **tasks** are `<sub-phase>.<n>`.
+- **In every sub-phase:** the second-last task is a **test** task, and the last is an **acceptance** task.
+- **In every phase:** the last sub-phase is the **verification** sub-phase.
+
+### 7.1 Who runs a task
+
+| Tag | Run by | Notes |
+|---|---|---|
+| `[worker]` | `task-worker`, any model, cheap is fine | builds exactly what the task card says; implements the planner's test cases |
+| `[strong]` | `task-worker` on a strong model | only for the Phase Z bug hunt |
+| `[reviewer]` | a **fresh, read-only** `task-reviewer` | every acceptance task; never the model that built it |
+
+### 7.2 The loop
 
 ```text
-for each phase:
-    for each sub-phase (dependency order):
-        for each task (dependency order): implement → task test → mark [x]
-        run sub-phase test
-    run phase test
-    phase review (fresh read-only task-reviewer)
-    gate per mode: stop with a phase report, or continue
-final review (fresh task-reviewer, whole feature)
+for each phase (A, B, … , Z):
+    for each sub-phase (in order, after its "depends on"):
+        build tasks, top to bottom: do the card → run its check → [x]
+        test task: implement the planner's cases exactly → run
+            a failing case → [!] → repair loop (§8); never weaken a test to make it pass
+        acceptance task: fresh task-reviewer checks each criterion with evidence → PASS / FAIL
+    the phase's verification sub-phase ends with the phase acceptance (the phase review)
+    gate per mode: phase report, then stop or continue
 ```
 
+### 7.3 Phase Z — Break it
+
+1. **Planned attacks:** every MUST-HANDLE / SHOULD-HANDLE edge, re-run together as exact attack cases.
+2. **Bug hunt** (`[strong]`): try to break the system beyond the edge list. No product code changes; findings only. Each confirmed finding gets a failing regression test.
+3. **Repairs**, when there are findings: `spec-writer` appends a repairs sub-phase in the same shape:
+   - one `[worker]` task per finding, with exact fix steps;
+   - a test task that re-runs the regression tests and the full attack suite;
+   - a `[reviewer]` acceptance task.
+
+   A repair that passes the crucial test goes to the user first. The bug hunt then runs again, with at most 3 repair cycles.
+4. **Final verification:** run everything. Its acceptance task **is the final review** (written into `tasks.md` → Final review).
+
+### 7.4 Rules
+
 - **Markers:** `[ ]` not started · `[~]` in progress · `[x]` done · `[!]` blocked (with the reason).
-- **Parallel work:** only tasks with no unmet dependencies that touch different files and different public contracts, and that can be tested on their own. Afterwards the main agent integrates the results and runs the full checks.
-- **Failing phases:** a failed test or phase review goes through the repair loop (§8). The build never moves to the next phase while the current one is failing.
+- **A worker never improvises.** If a card is unclear, incomplete or wrong, it marks the task `[!]` and reports. The main agent fixes the card (a crucial gap goes to the user) instead of letting the worker guess.
+- **Parallel work:** only sub-phases or tasks with no unmet dependencies that touch different files and different public contracts. Afterwards the main agent integrates the results and runs the full checks.
+- **Failing work:** a failed test or acceptance goes through the repair loop (§8). The build never moves on while the current sub-phase is failing.
 - **Questions during the build:** a crucial question stops the build (`decision-policy.md` §8). Workers may continue only with tasks that don't depend on it.
-- **Phase report:** format in `templates/review.md`.
+- **Phase report:** format in `templates/review.md` §3.
 
 ## 8. Review and repair loops
 

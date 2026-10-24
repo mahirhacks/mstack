@@ -34,7 +34,7 @@ Then the YAML verdict from `core/verification.md` §4.
 # Worker report — Tasks <IDs>
 
 ## Done
-- Task 1.1.1 — <summary> — files: <paths>
+- 1.1 — <summary> — files: <paths>
 
 ## Blocked
 - <task — reason — question for the user, if crucial>
@@ -57,15 +57,15 @@ Then the YAML verdict from `core/verification.md` §4.
 ```markdown
 ## Phase <n> done — <phase outcome>
 
+- Sub-phases: <n, each with its acceptance verdict>
 - Tasks: <x>/<y> done · blocked: <list or none>
-- Sub-phase tests: <pass/fail each>
-- Phase test: `<command>` → <result>
-- Phase review: PASS | FAIL (<cycle n of 3>)
+- Test cases: <passed>/<total> (`<command>`)
+- Phase acceptance: PASS | FAIL (<cycle n of 3>)
 - Minor decisions made: <count, or list if few>
 - Next: Phase <n+1> — <outcome>. Continue?
 ```
 
-## 4. Final review (`task-reviewer`, written into tasks.md → "Final review")
+## 4. Final review (`task-reviewer`, the final acceptance task of Phase Z, written into tasks.md → "Final review")
 
 ```markdown
 ## Final review — <date>

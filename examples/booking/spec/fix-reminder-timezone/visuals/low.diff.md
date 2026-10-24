@@ -99,7 +99,7 @@ flowchart LR
 ## Change legend
 | Node | Change | Why | Where |
 |---|---|---|---|
-| CLINIC__GET_TIMEZONE | added | REQ-001, Task 1.1.1 | `src/clinics/timezone.ts:getClinicTimeZone` |
-| CLINIC__DEFAULT_TZ | added | AC-001.2, Task 1.1.2 | `src/clinics/timezone.ts:getClinicTimeZone` (fallback branch) |
+| CLINIC__GET_TIMEZONE | added | REQ-001, task 1.1 | `src/clinics/timezone.ts:getClinicTimeZone` |
+| CLINIC__DEFAULT_TZ | added | AC-001.2, task 1.2 | `src/clinics/timezone.ts:getClinicTimeZone` (fallback branch) |
 | DB__CLINICS | added (newly read) | REQ-001 | `prisma/schema.prisma:Clinic.timeZone` |
-| REMINDER__BUILD_TEXT | modified: now takes `tz` and uses `Intl.DateTimeFormat` with `timeZone` | AC-001.1, Task 1.2.1 | `src/reminders/message.ts:buildReminderText` |
+| REMINDER__BUILD_TEXT | modified: now takes `tz` and uses `Intl.DateTimeFormat` with `timeZone` | AC-001.1, task 2.1 | `src/reminders/message.ts:buildReminderText` |

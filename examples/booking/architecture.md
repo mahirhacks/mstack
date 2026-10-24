@@ -1,7 +1,7 @@
 # Architecture: ClinicBook
 
 - Status: Approved
-- Last updated: 2026-10-14 (reminder worker added by spec/booking, task 3.1.1)
+- Last updated: 2026-10-14 (reminder worker added by spec/booking, tasks 6.3 and 7.1)
 
 ## Overview diagram
 

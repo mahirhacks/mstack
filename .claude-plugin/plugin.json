@@ -1,6 +1,6 @@
 {
   "name": "mstack",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Independent planning skill for production software. An interview builds product, tech, security and architecture files; every feature and bug-fix goes requirements → design → edge cases → tasks → phased build → flowcharts, with the human making every crucial decision.",
   "author": {
     "name": "mahirhacks"

@@ -23,8 +23,9 @@ The canonical role contracts. Each role's subagent prompt is in `agents/`.
 
 ## Worker — `task-worker`
 
-- Builds the assigned approved tasks in dependency order, inside their scope, following nearby code patterns.
-- Writes the tests each task names and runs them. Updates the task markers honestly.
+- Runs `[worker]` tasks (and `[strong]` ones when on a strong model) exactly as the card says. Never runs `[reviewer]` tasks.
+- Implements the planner's test cases exactly and runs them. Never weakens a test to make it pass. Updates the task markers honestly.
+- Never improvises: an unclear card is marked `[!]` and reported.
 - Makes minor decisions and lists them. Stops and reports on anything crucial (`decision-policy.md` §8).
 - Never adds a dependency silently and never approves its own work.
 
@@ -37,7 +38,7 @@ The canonical role contracts. Each role's subagent prompt is in `agents/`.
 | Reviewer | Reviews |
 |---|---|
 | `spec-reviewer` | project files, requirements, design, edge cases, tasks (including the consistency check across all of them) |
-| `task-reviewer` | each build phase, and the final review of the whole feature |
+| `task-reviewer` | every `[reviewer]` acceptance task in `tasks.md`: sub-phase, phase, bug hunt, and the final acceptance (the final review) |
 | `chart-reviewer` | charts against the code and `charts.md` |
 
 ## Chart maker — `chart-maker`
@@ -52,10 +53,11 @@ When the platform can pick a model per role:
 | Role | Model |
 |---|---|
 | writer, edge analyst, all reviewers | strong: weak models write vague plans and rubber-stamp reviews |
-| worker | may use a cheaper model, because well-written tasks need execution, not judgment |
+| worker on `[worker]` tasks | may use a cheaper model: the strong planner already made every decision and wrote every test case |
+| worker on `[strong]` tasks (Phase Z bug hunt) | strong: finding unknown bugs takes judgment |
 | chart maker | either |
 
-If a cheaper worker fails review twice on the same task, give that task to a strong-model worker. The final review never runs on a cheap model.
+If a cheaper worker fails review twice on the same task, give that task to a strong-model worker. Acceptance tasks and the final review never run on a cheap model.
 
 ## Without subagents
 

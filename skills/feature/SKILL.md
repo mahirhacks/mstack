@@ -46,12 +46,13 @@ In Claude Code, the agent names are `mstack:spec-writer`, `mstack:edge-analyst` 
    4. Write each resolution into `edge-cases.md` with its source.
    5. Collect the requirement, design and failure-policy changes the resolutions imply (§5.8).
    6. Review. The gate approves the edges **and** those changes together.
-4. **Tasks:** writer `spec-writer`, using `templates/tasks.md`. The reviewer runs the full consistency check (`core/verification.md` §3). At the gate, the user also confirms whether to stop after each phase (the default comes from the mode).
-5. **Build:** phase by phase (`workflow.md` §7):
-   1. Dispatch `task-worker` per sub-phase or phase.
-   2. Run a fresh `task-reviewer` for each phase review.
-   3. Give a phase report (`templates/review.md` §3), and stop if the mode says so.
+4. **Tasks:** writer `spec-writer`, using `templates/tasks.md`: phases A, B… plus `PHASE Z — Break it`; every sub-phase ends with a test task and a `[reviewer]` acceptance task; the planner writes every test case. The reviewer runs the full consistency and shape check (`core/verification.md` §3). At the gate, the user also confirms whether to stop after each phase (the default comes from the mode).
+5. **Build:** phase by phase, sub-phase by sub-phase (`workflow.md` §7):
+   1. Dispatch `task-worker` for each sub-phase's `[worker]` tasks (a cheaper model is fine) and `[strong]` tasks (strong model).
+   2. Dispatch a **fresh** `task-reviewer` for every `[reviewer]` acceptance task.
+   3. If the Phase Z bug hunt confirms findings, have `spec-writer` append a repairs sub-phase, then re-run the bug hunt (at most 3 cycles).
+   4. After each phase's acceptance, give a phase report (`templates/review.md` §3), and stop if the mode says so.
    4. If a worker hits a crucial question, stop and ask the user (`decision-policy.md` §8).
-6. **Final review:** a fresh `task-reviewer` with scope `final`. Write its result into `tasks.md` → Final review. On FAIL, repair (≤3 cycles). If it's still failing, give the blocked report (`templates/review.md` §6) and stop.
+6. **Final review:** the final acceptance task of Phase Z, run by a fresh `task-reviewer`. Write its result into `tasks.md` → Final review. On FAIL, repair (≤3 cycles). If it's still failing, give the blocked report (`templates/review.md` §6) and stop.
 7. **Charts:** ask which chart, as in `core/charts.md` §2: high, low, both or neither. In Pre-authorized mode, make the low-level chart and offer the high-level one. Follow `skills/visualhigh` / `skills/visuallow`.
 8. **Done:** set `status: done` in `state.yaml` and give the final report (`templates/review.md` §5). From now on, this folder is never edited. Later changes go through `mstack:bug-fix`.

@@ -152,11 +152,17 @@ A separate, read-only reviewer checks every document **before** you see it. If t
   - The agent walks every step of the design against a fixed checklist (bad input, races, failures, permissions, time, abuse…) and ranks what can go wrong S1–S4.
   - **You decide how each one is handled.** Serious edges are asked one by one as scenarios with options. Smaller ones are grouped, or put in an approval table.
   - Shared rules ("what happens when any outside service is down") are asked once and reused.
-- **Tasks:**
-  - Phases → sub-phases → tasks. Each task has its objective, files, criteria, test and dependencies, and each sub-phase and phase has its own test.
-  - Every requirement and every edge maps to a task.
-  - If the feature changed the project's shape, stack or security, a final task updates the 4 project files.
-- **Build:** one phase at a time. Each phase runs its tasks, its sub-phase tests and its phase test, then gets a read-only review. A final independent review covers everything at the end.
+- **Tasks:** written by a strong model so that a small model can build them just as well ([core/templates/tasks.md](core/templates/tasks.md)).
+  - Phases A, B, C… end with **PHASE Z — Break it**. Sub-phases are numbered across the file, and tasks are `3.1`, `3.2`…
+  - In every sub-phase, the **second-last task is a test** and the **last is an acceptance check**. Every phase ends with a verification sub-phase.
+  - Every worker task is an exact card: files, code-level steps, a pattern to copy, what not to touch, how to check it's done. No decisions are left to the worker.
+  - The planner writes **every test case** (exact input → expected). Workers only turn them into test code.
+  - Edge cases are tested where they're built, and again in Phase Z.
+- **Build:**
+  - Sub-phase by sub-phase. Worker tasks can run on a cheap model.
+  - Every acceptance task is run by a fresh, read-only reviewer, never by the model that built it.
+  - **Phase Z** re-runs every edge case as an attack, then a strong model hunts for bugs beyond the list. Findings become repair tasks, and the hunt runs again.
+  - Phase Z's last acceptance task is the final review.
 - **Charts** ([core/charts.md](core/charts.md))
   - After the final review, the agent asks which chart you want.
   - **High-level** is the user journey in lanes (user / server / data / outside services).
@@ -193,8 +199,8 @@ Modes only change *when the agent pauses*, never *who decides*. A new crucial qu
 | Main agent | asks you every question, runs the flow, shows you each document | — |
 | Writer | drafts one document | that document only |
 | Edge analyst | finds edge cases and prepares options; it never chooses them | edge-cases.md only |
-| Worker | builds tasks | code |
-| Reviewers | check documents, code, charts and guesses | **no**, read-only |
+| Worker | runs `[worker]` tasks exactly as written (a cheap model is fine); runs the bug hunt on a strong model | code |
+| Reviewers | check documents, charts and guesses, and run every acceptance task | **no**, read-only |
 | Chart maker | draws the charts from the code | visuals only |
 
 Nobody approves their own work. The main agent asks all the questions, because helper agents can't talk to you. Strong models write plans and review; cheaper models may do the building ([core/roles.md](core/roles.md)).
